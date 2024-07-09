@@ -1,0 +1,130 @@
+.field1-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--color-gray-100);
+  width: 1440px;
+  height: 1042px;
+}
+.field1-item,
+.logo7 {
+  position: absolute;
+  left: 77px;
+}
+.field1-item {
+  top: 159px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-white);
+  border: 3px solid var(--color-purple);
+  box-sizing: border-box;
+  width: 1285px;
+  height: 826px;
+}
+.logo7 {
+  top: 71px;
+  display: inline-block;
+  width: 75px;
+  height: 43px;
+  cursor: pointer;
+}
+
+.field1 {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  height: 1024px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-17xl);
+  color: var(--color-white);
+  font-family: var(--font-hammersmith-one);
+}
+
+.gauge {
+  width: 100%;
+  max-width: 250px;
+  font-family: "Roboto", sans-serif;
+  font-size: 32px;
+  color: #009578;
+  margin:0% ;
+  margin: top 50px;;
+}
+.gauge--text-small {
+  font-size: 16px;
+}
+
+.gauge__body {
+  width: 100%;
+  height: 0;
+  padding-bottom: 50%;
+  background: #b4c0be;
+  position: relative;
+  top: 350px; 
+  left: 750px;
+  border-top-left-radius: 100% 200%;
+  border-top-right-radius: 100% 200%;
+  overflow: hidden;
+}
+
+.gauge__fill {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: inherit;
+  height: 100%;
+  background: #0a0095;
+  transform-origin: center top;
+  transform: rotate(0.25turn);
+  transition: transform 0.2s ease-out;
+}
+
+.gauge__cover {
+  width: 75%;
+  height: 150%;
+  background: #ffffff;
+  border-radius: 50%;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 25%;
+  box-sizing: border-box;
+}
+.graph {
+  position: relative;
+  top: 150px; 
+  left: 150px;
+}
+.footer{
+  position: absolute;
+  top: 1010px;
+  left: 0;
+  background-color: #10143b;
+  width: 1440px;
+  height: 30px;
+}
+.parameters{
+  color: rgba(15, 14, 14, 0.884);
+  font-size: 32px;
+  position: relative;
+  top: 80px;
+  left: 150px;
+}
+.text{
+  color: rgba(0, 0, 0, 0.384);
+  font-size: 20px;
+  position: relative;
+  top: 100px;
+  left: 150px;
+}
+.symbol {
+  position: absolute;
+  top: 30px;
+  right:35px;
+  width: 92px;
+  height: 93px;
+  object-fit: cover;
+}

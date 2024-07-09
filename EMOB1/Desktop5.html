@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--field 3-->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <title>BMS-Field 3</title>
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./Desktop5.css" />
+    <link rel="icon" type="image/png" href="public\idea.png">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Hammersmith One:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inika:wght@700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Glory:wght@400&display=swap"
+    />
+  </head>
+  <body>
+    <div class="field3">
+      <div class="field3-child"></div>
+      <div class="field3-item"></div>
+      <div class="logo5" id="logoText">BMS</div>
+      <div class="gauge">
+        <div class="gauge__body">
+            <div class="gauge__fill"></div>
+            <div class="gauge__cover">0</div> <!-- Initialize with 0 -->
+        </div>
+    </div>
+    <div class="parameters" id="parameters">TEMPERATURE</div>
+    <div class="text" id="text"> <p>This page monitors temperature of the cell .</p></div>
+    <img class="symbol" alt="" src="./public\power-button.png">
+    <div class ="graph">
+        <iframe width="450" height="260" style="border: 1px solid #cccccc;" 
+        src="https://thingspeak.com/channels/1943049/charts/8?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15">
+    </iframe>
+    </div>
+    </div>
+
+    <script>
+      var logoText = document.getElementById("logoText");
+      if (logoText) {
+        logoText.addEventListener("click", function (e) {
+          window.location.href = "./index.html";
+        });
+      }
+      var logoText = document.getElementById("logoText");
+      if (logoText) {
+        logoText.addEventListener("click", function (e) {
+          window.location.href = "./index.html";
+        });
+      }
+      const gaugeElement = document.querySelector(".gauge");
+
+        function setGaugeValue(gauge, value) {
+            // Scale the value to fit within the 0-50 range
+            const scaledValue = Math.min(Math.max(value, 0), 200);
+            // Map the scaled value to the 0-180 degree range
+            const angle = (scaledValue / 200) * 180;
+            gauge.querySelector(".gauge__fill").style.transform = `rotate(${angle}deg)`; // Adjust the transformation
+            gauge.querySelector(".gauge__cover").textContent = `${scaledValue}°C`; // Display the exact value
+        }
+
+        // Function to update gauge from ThingSpeak
+        function updateGaugeFromThingSpeak() {
+            // Replace with your ThingSpeak Channel ID and Field Name (e.g., 'field1')
+            const channelID = '1943049';
+            const fieldName = 'field8';
+
+            const apiUrl = `https://api.thingspeak.com/channels/${channelID}/fields/${fieldName}/last.json`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const valueFromThingSpeak = parseFloat(data[fieldName]);
+                    if (!isNaN(valueFromThingSpeak)) {
+                        setGaugeValue(gaugeElement, valueFromThingSpeak);
+                    } else {
+                        alert("Invalid data received from ThingSpeak.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data from ThingSpeak:', error);
+                });
+        }
+
+        // Initial update and periodic updates (every 60 seconds)
+        setGaugeValue(gaugeElement, 0); // Initialize with 0
+        updateGaugeFromThingSpeak();
+        setInterval(updateGaugeFromThingSpeak, 60000); // Update every 60 seconds
+    </script>
+</body>
+</html>

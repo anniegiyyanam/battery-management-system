@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gauge with ThingSpeak Integration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="gauge.css">
+</head>
+<body>
+    <div class="gauge">
+        <div class="gauge__body">
+            <div class="gauge__fill"></div>
+            <div class="gauge__cover">0</div> <!-- Initialize with 0 -->
+        </div>
+    </div>
+    <div class ="graph">
+        <iframe width="450" height="260" style="border: 1px solid #cccccc;" 
+        src="https://thingspeak.com/channels/1452513/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15">
+    </iframe>
+    </div>
+
+    <script>
+        const gaugeElement = document.querySelector(".gauge");
+
+        function setGaugeValue(gauge, value) {
+            // Scale the value to fit within the 0-50 range
+            const scaledValue = Math.min(Math.max(value, 0), 50);
+            // Map the scaled value to the 0-180 degree range
+            const angle = (scaledValue / 50) * 180;
+            gauge.querySelector(".gauge__fill").style.transform = `rotate(${angle}deg)`; // Adjust the transformation
+            gauge.querySelector(".gauge__cover").textContent = `${scaledValue}`; // Display the exact value
+        }
+
+        // Function to update gauge from ThingSpeak
+        function updateGaugeFromThingSpeak() {
+            // Replace with your ThingSpeak Channel ID and Field Name (e.g., 'field1')
+            const channelID = '1452513';
+            const fieldName = 'field2';
+
+            const apiUrl = `https://api.thingspeak.com/channels/${channelID}/fields/${fieldName}/last.json`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const valueFromThingSpeak = parseFloat(data[fieldName]);
+                    if (!isNaN(valueFromThingSpeak)) {
+                        setGaugeValue(gaugeElement, valueFromThingSpeak);
+                    } else {
+                        alert("Invalid data received from ThingSpeak.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data from ThingSpeak:', error);
+                });
+        }
+
+        // Initial update and periodic updates (every 60 seconds)
+        setGaugeValue(gaugeElement, 0); // Initialize with 0
+        updateGaugeFromThingSpeak();
+        setInterval(updateGaugeFromThingSpeak, 60000); // Update every 60 seconds
+    </script>
+</body>
+</html>
